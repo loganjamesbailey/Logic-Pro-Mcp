@@ -1,1 +1,1 @@
-# Logic-Pro-Mcp
+# Logic-Pro-icp
