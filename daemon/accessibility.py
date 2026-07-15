@@ -51,9 +51,7 @@ before Python's hard kill fires -- osascript launch, JXA compilation, and
 AX-tree traversal all happen before the script's own clock starts checking
 that budget.
 """
-_SCRIPT_ERROR = re.compile(
-    r"LOGIC_BRIDGE:(?:(PRE_DISPATCH|POST_DISPATCH):)?([A-Z_]+)"
-)
+_SCRIPT_ERROR = re.compile(r"LOGIC_BRIDGE:(?:(PRE_DISPATCH|POST_DISPATCH):)?([A-Z_]+)")
 _SCRIPT_FILENAMES = ("load_cst.js", "cleanup_cst.js", "inspect_mixer.js")
 _PACKAGED_JXA_SHA256 = {
     "load_cst.js": "431246c8a06c3d1bd4bbafefa67edeef9c0e0695e8376c4b4a5a38afd3bad888",
@@ -171,9 +169,7 @@ class AccessibilityCstPresetLoader:
             Path(__file__).resolve().parent.parent / "bridge_scripts" / "load_cst.js"
         )
         expected_hashes = dict(
-            _PACKAGED_JXA_SHA256
-            if resource_sha256 is None
-            else resource_sha256
+            _PACKAGED_JXA_SHA256 if resource_sha256 is None else resource_sha256
         )
         loaded_resources: dict[str, _FixedJxaResource] = {}
         self._script_resource_error: BridgeError | None = None
@@ -650,9 +646,7 @@ def _load_fixed_jxa_resource(
         path_status = os.lstat(path)
         descriptor = os.open(
             path,
-            os.O_RDONLY
-            | getattr(os, "O_NOFOLLOW", 0)
-            | getattr(os, "O_CLOEXEC", 0),
+            os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_CLOEXEC", 0),
         )
         before = os.fstat(descriptor)
         if (
@@ -679,10 +673,9 @@ def _load_fixed_jxa_resource(
         source = b"".join(chunks)
         after = os.fstat(descriptor)
         after_path = os.lstat(path)
-        if (
-            _stable_stat_identity(before) != _stable_stat_identity(after)
-            or _stable_stat_identity(after_path) != _stable_stat_identity(after)
-        ):
+        if _stable_stat_identity(before) != _stable_stat_identity(
+            after
+        ) or _stable_stat_identity(after_path) != _stable_stat_identity(after):
             raise OSError
         source.decode("utf-8", errors="strict")
         if b"\x00" in source:
@@ -724,10 +717,7 @@ def _open_cst_preset_descriptors(
     preset_descriptor: int | None = None
     try:
         filename = Path(preset.filename)
-        if (
-            filename.name != preset.filename
-            or filename in {Path("."), Path("..")}
-        ):
+        if filename.name != preset.filename or filename in {Path("."), Path("..")}:
             raise PresetFileRejectedError(
                 "The configured channel-strip preset file was rejected"
             )
@@ -759,16 +749,13 @@ def _open_cst_preset_descriptors(
         )
         preset_descriptor = os.open(
             preset.filename,
-            os.O_RDONLY
-            | getattr(os, "O_NOFOLLOW", 0)
-            | getattr(os, "O_CLOEXEC", 0),
+            os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_CLOEXEC", 0),
             dir_fd=root_descriptor,
         )
         file_before = os.fstat(preset_descriptor)
         if (
             not stat.S_ISREG(file_before.st_mode)
-            or _stable_stat_identity(path_before)
-            != _stable_stat_identity(file_before)
+            or _stable_stat_identity(path_before) != _stable_stat_identity(file_before)
             or file_before.st_uid != current_uid
             or file_before.st_mode & 0o022
             or not 1 <= file_before.st_size <= config.max_cst_bytes
@@ -828,13 +815,11 @@ def _finish_cst_preset_metadata(
             "The configured channel-strip preset file was rejected"
         ) from exc
     if (
-        _stable_stat_identity(opened.file_before)
-        != _stable_stat_identity(file_after)
+        _stable_stat_identity(opened.file_before) != _stable_stat_identity(file_after)
         or _stable_stat_identity(path_after) != _stable_stat_identity(file_after)
         or _stable_stat_identity(opened.root_before)
         != _stable_stat_identity(root_after)
-        or _stable_stat_identity(root_path_after)
-        != _stable_stat_identity(root_after)
+        or _stable_stat_identity(root_path_after) != _stable_stat_identity(root_after)
     ):
         raise PresetFileRejectedError(
             "The configured channel-strip preset file changed during validation"

@@ -83,9 +83,10 @@ def test_fixed_jxa_resources_pin_bounded_mixer_contract(name: str) -> None:
 def test_packaged_jxa_digest_pins_match_reviewed_source_bytes() -> None:
     assert set(_PACKAGED_JXA_SHA256) == set(SCRIPT_NAMES)
     for name in SCRIPT_NAMES:
-        assert _PACKAGED_JXA_SHA256[name] == hashlib.sha256(
-            (SCRIPTS / name).read_bytes()
-        ).hexdigest()
+        assert (
+            _PACKAGED_JXA_SHA256[name]
+            == hashlib.sha256((SCRIPTS / name).read_bytes()).hexdigest()
+        )
 
 
 def test_jxa_accessibility_behavior_harness() -> None:

@@ -142,9 +142,7 @@ def test_missing_iac_blocks_every_midi_backed_capability_with_one_action() -> No
         assert availability["status"] == "blocked"
         assert availability["reason"] == "configured_midi_output_not_found"
         assert availability["next_action"]["code"] == "enable_exact_iac_output"
-        assert availability["prerequisites"]["midi_output"] == (
-            config.midi.output_name
-        )
+        assert availability["prerequisites"]["midi_output"] == (config.midi.output_name)
 
     readiness = {
         item["id"]: item for item in capabilities["operator_readiness"]["items"]
@@ -152,9 +150,7 @@ def test_missing_iac_blocks_every_midi_backed_capability_with_one_action() -> No
     for item_id in ("midi_output", "controller_assignments", "scripter"):
         assert readiness[item_id]["status"] == "blocked"
         assert readiness[item_id]["reason"] == "configured_midi_output_not_found"
-        assert readiness[item_id]["next_action"]["code"] == (
-            "enable_exact_iac_output"
-        )
+        assert readiness[item_id]["next_action"]["code"] == ("enable_exact_iac_output")
 
 
 def test_midi_backend_code_and_recovery_action_flow_to_capabilities() -> None:

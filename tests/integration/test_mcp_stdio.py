@@ -282,9 +282,7 @@ def test_official_stdio_client_composes_with_real_authenticated_daemon() -> None
                             "logic-bridge://capabilities"
                         )
                         health = json.loads(health_response.contents[0].text)
-                        capabilities = json.loads(
-                            capability_response.contents[0].text
-                        )
+                        capabilities = json.loads(capability_response.contents[0].text)
                         exposed_payloads.extend((health, capabilities))
 
                         assert health["status"] == "running"
@@ -294,9 +292,12 @@ def test_official_stdio_client_composes_with_real_authenticated_daemon() -> None
                         assert set(capabilities["contract"]["methods"]) == set(
                             METHOD_SPECS
                         )
-                        assert capabilities["contract"]["methods"][
-                            "logic.set_volume"
-                        ]["availability"]["available"] is True
+                        assert (
+                            capabilities["contract"]["methods"]["logic.set_volume"][
+                                "availability"
+                            ]["available"]
+                            is True
+                        )
 
                         mutation_task = asyncio.create_task(
                             session.call_tool(

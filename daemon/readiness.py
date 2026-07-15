@@ -211,11 +211,7 @@ def operator_readiness_snapshot(
             status="ready" if cst_ready else "blocked",
             blocking=False,
             required_for="logic.load_cst_preset",
-            reason=(
-                None
-                if cst_ready
-                else cst_reason or "cst_resources_unavailable"
-            ),
+            reason=(None if cst_ready else cst_reason or "cst_resources_unavailable"),
             next_action=_next_action(
                 code="configure_and_probe_cst_allowlists",
                 instruction=(
@@ -249,12 +245,9 @@ def capability_operator_readiness(
     """Project live service probes into the canonical readiness snapshot."""
     cst = _cst_capability_state(config=config, cst_status=cst_status)
     accessibility_required = bool(
-        config.permissions.require_accessibility_for_ui
-        or config.accessibility.enabled
+        config.permissions.require_accessibility_for_ui or config.accessibility.enabled
     )
-    accessibility_ready = (
-        cst.accessibility_ready if accessibility_required else True
-    )
+    accessibility_ready = cst.accessibility_ready if accessibility_required else True
     return operator_readiness_snapshot(
         config=config,
         authentication_ready=True,
@@ -341,9 +334,7 @@ def capability_method_availability(
                 "fixed_source_sha256": scripter_source_sha256,
                 "operator_attestation": "required",
                 "software_instrument_only": True,
-                "configured_parameter_ids": sorted(
-                    config.scripter.learned_targets
-                ),
+                "configured_parameter_ids": sorted(config.scripter.learned_targets),
             }
         )
         return _availability_from_item(
