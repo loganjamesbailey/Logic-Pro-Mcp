@@ -139,11 +139,14 @@ def test_rogue_listener_receives_no_token_or_authenticated_request() -> None:
 
     async def scenario() -> None:
         received: list[bytes] = []
+        handler_task: asyncio.Task[None] | None = None
 
         async def handle(
             reader: asyncio.StreamReader,
             writer: asyncio.StreamWriter,
         ) -> None:
+            nonlocal handler_task
+            handler_task = asyncio.current_task()
             try:
                 client_hello_raw = await reader.readline()
                 received.append(client_hello_raw)
@@ -186,6 +189,12 @@ def test_rogue_listener_receives_no_token_or_authenticated_request() -> None:
         try:
             with pytest.raises(BridgeRpcProtocolError, match="server authentication"):
                 await client.call("logic.toggle_mute", {"track_id": "selected"})
+            # server.wait_closed() only stops new connections; it does not
+            # wait for the already-accepted handler task to finish reading.
+            # Without this, the assertions below race the handler's second
+            # read on any scheduler slower than instant loopback delivery.
+            assert handler_task is not None
+            await asyncio.wait_for(handler_task, timeout=5)
         finally:
             server.close()
             await server.wait_closed()
