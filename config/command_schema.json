@@ -1,0 +1,367 @@
+{
+  "$defs": {
+    "base": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "jsonrpc": {
+          "const": "2.0"
+        },
+        "meta": {
+          "$ref": "#/$defs/meta"
+        },
+        "method": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "jsonrpc",
+        "id",
+        "method",
+        "params",
+        "meta"
+      ],
+      "type": "object"
+    },
+    "capabilities": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "bridge.capabilities"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "health": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "bridge.health"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "id": {
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "minLength": 1,
+          "type": "string"
+        }
+      ]
+    },
+    "inspectMixerTarget": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "logic.inspect_mixer_target"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {
+                "target_id": {
+                  "$ref": "#/$defs/resourceId"
+                }
+              },
+              "required": [
+                "target_id"
+              ],
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "invokeAction": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "logic.invoke_action"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {
+                "action_id": {
+                  "$ref": "#/$defs/resourceId"
+                },
+                "value": {
+                  "maximum": 127,
+                  "minimum": 0,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "action_id"
+              ],
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "listOutputs": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "midi.list_outputs"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "loadCstPreset": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "logic.load_cst_preset"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {
+                "confirmation": {
+                  "maxLength": 400,
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "preset_id": {
+                  "$ref": "#/$defs/resourceId"
+                },
+                "target_id": {
+                  "$ref": "#/$defs/resourceId"
+                }
+              },
+              "required": [
+                "preset_id",
+                "target_id",
+                "confirmation"
+              ],
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "meta": {
+      "additionalProperties": false,
+      "properties": {
+        "auth": {
+          "const": "logic-bridge-hmac-sha256-v1"
+        },
+        "client_nonce": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "request_proof": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "server_nonce": {
+          "maxLength": 64,
+          "minLength": 64,
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "auth",
+        "client_nonce",
+        "request_proof",
+        "server_nonce"
+      ],
+      "type": "object"
+    },
+    "resourceId": {
+      "maxLength": 128,
+      "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$",
+      "type": "string"
+    },
+    "setScripterParameter": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "logic.set_scripter_parameter"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {
+                "parameter_id": {
+                  "$ref": "#/$defs/resourceId"
+                },
+                "value": {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "parameter_id",
+                "value"
+              ],
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "setVolume": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "logic.set_volume"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {
+                "track_id": {
+                  "$ref": "#/$defs/trackId"
+                },
+                "value": {
+                  "maximum": 1,
+                  "minimum": 0,
+                  "type": "number"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "toggleMute": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/base"
+        },
+        {
+          "properties": {
+            "method": {
+              "const": "logic.toggle_mute"
+            },
+            "params": {
+              "additionalProperties": false,
+              "properties": {
+                "track_id": {
+                  "$ref": "#/$defs/trackId"
+                }
+              },
+              "type": "object"
+            }
+          }
+        }
+      ]
+    },
+    "trackId": {
+      "oneOf": [
+        {
+          "const": "selected"
+        },
+        {
+          "maximum": 99999999999999999999,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "maxLength": 20,
+          "pattern": "^[1-9][0-9]{0,19}$",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "$id": "https://local.logic-bridge.invalid/schemas/command.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "One authenticated newline-delimited JSON-RPC 2.0 request for logic-bridge-hmac-sha256-v1. The per-connection nonce exchange precedes this envelope; meta carries only the bound request proof, never the shared secret. Batch requests and notifications are unsupported.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/health"
+    },
+    {
+      "$ref": "#/$defs/capabilities"
+    },
+    {
+      "$ref": "#/$defs/listOutputs"
+    },
+    {
+      "$ref": "#/$defs/setVolume"
+    },
+    {
+      "$ref": "#/$defs/toggleMute"
+    },
+    {
+      "$ref": "#/$defs/invokeAction"
+    },
+    {
+      "$ref": "#/$defs/setScripterParameter"
+    },
+    {
+      "$ref": "#/$defs/inspectMixerTarget"
+    },
+    {
+      "$ref": "#/$defs/loadCstPreset"
+    }
+  ],
+  "title": "AI-to-Logic Pro Bridge JSON-RPC Request"
+}

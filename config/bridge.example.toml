@@ -1,0 +1,115 @@
+[server]
+# Literal loopback addresses only. Non-loopback binds are rejected.
+host = "127.0.0.1"
+port = 8765
+token_env = "LOGIC_BRIDGE_TOKEN"
+max_request_bytes = 65536
+read_timeout_seconds = 10.0
+# Bounds socket backpressure and close waits; it is not an operation deadline.
+write_timeout_seconds = 2.0
+# MCP may wait through one bounded preset load plus one bounded inspection.
+mcp_timeout_seconds = 75.0
+max_connections = 32
+
+[midi]
+# Match the output name shown by `logic-bridge doctor` exactly.
+output_name = "IAC Driver AI_Logic_Bridge"
+
+# Map this CC to the selected track's volume in Logic Pro Controller Assignments.
+[[midi.assignments]]
+name = "track.selected.volume"
+kind = "control_change"
+channel = 0
+control = 7
+value_mode = "normalized"
+
+# Map this CC to the selected track's mute action in Logic Pro Controller Assignments.
+[[midi.assignments]]
+name = "track.selected.mute_toggle"
+kind = "control_change"
+channel = 0
+control = 20
+value_mode = "trigger"
+value = 127
+release_value = 0
+
+# Optional note trigger: emits one note_on followed immediately by one note_off.
+# [[midi.assignments]]
+# name = "transport.example.note-trigger"
+# kind = "note"
+# channel = 0
+# note = 60
+# velocity = 127
+# release_velocity = 0
+# value_mode = "trigger"
+
+# Optional fixed SysEx trigger. Configure payload bytes only; mido supplies the
+# F0/F7 framing. Every payload integer must be seven-bit clean (0 through 127).
+# [[midi.assignments]]
+# name = "device.example.fixed-sysex"
+# kind = "sysex"
+# data = [0, 32, 51, 1]
+# value_mode = "trigger"
+
+# Optional parameterized SysEx. The caller supplies a normalized value and the
+# bridge substitutes only the single configured payload index.
+# [[midi.assignments]]
+# name = "device.example.parameter-sysex"
+# kind = "sysex"
+# data = [0, 32, 51, 0]
+# value_index = 3
+# value_mode = "normalized"
+
+[scripter]
+# Protocol v1 is a fixed, reviewed software-instrument MIDI-FX profile. Keep it
+# disabled until Logic Scripter contains the packaged source before Retro Synth,
+# both targets below are learned, channel 16 routing is isolated, and the source
+# digest has been checked. Then set both enabled and operator_attested to true.
+enabled = false
+protocol_version = 1
+# Mido channels are zero-based: 15 is human-facing MIDI channel 16.
+channel = 15
+source_sha256 = "1452add3dc76a19223fb6301e39ffd9c4c3c8c5915f072ae3ee029ffd1a563ab"
+placement = "software_instrument_midi_fx"
+operator_attested = false
+
+[[scripter.learned_targets]]
+parameter_id = "scripter.retro-synth.filter-cutoff"
+control = 102
+target_slot = 1
+target_name = "Retro Synth Filter Cutoff"
+
+[[scripter.learned_targets]]
+parameter_id = "scripter.retro-synth.filter-resonance"
+control = 103
+target_slot = 2
+target_name = "Filter Resonance"
+
+[permissions]
+# Missing Accessibility consent is reported as a warning and never bypassed by UI actions.
+require_accessibility_for_ui = true
+
+[accessibility]
+# Keep UI mutation disabled until this machine has an exact preset and target allowlist.
+enabled = false
+preset_root = "~/Music/Audio Music Apps/Channel Strip Settings/Track"
+timeout_seconds = 20.0
+max_cst_bytes = 16777216
+
+# Copy these blocks into config/bridge.toml, remove the comment markers, and
+# replace every value with an exact local resource. Generate the digest with:
+# shasum -a 256 "$HOME/Music/Audio Music Apps/Channel Strip Settings/Track/Lead Vocal.cst"
+#
+# [[accessibility.presets]]
+# id = "preset.lead-vocal"
+# filename = "Lead Vocal.cst"
+# sha256 = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+# expected_plugin_signature = ["Channel EQ", "Compressor", "Gain", "Noise Gate"]
+# signature_match_mode = "subset"
+#
+# `mixer_index` is zero-based among visible Setting buttons in one standalone
+# Mixer window. The name must exactly match the target in Logic's AX tree.
+# [[accessibility.targets]]
+# id = "track.lead-vocal"
+# mixer_index = 0
+# expected_accessibility_name = "Lead Vocal"
