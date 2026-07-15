@@ -1,0 +1,135 @@
+# Python bytecode and interpreter caches
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.direnv/
+.envrc
+
+# Python test, type-checker, linter, and coverage output
+.pytest_cache/
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+test-results/
+
+# Python packaging and build output
+build/
+dist/
+downloads/
+*.egg-info/
+.eggs/
+*.egg
+pip-wheel-metadata/
+wheelhouse/
+
+# Node.js dependencies, caches, logs, and build output
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/install-state.gz
+.yarn/unplugged/
+.parcel-cache/
+.turbo/
+.next/
+.nuxt/
+.svelte-kit/
+.vite/
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tsbuildinfo
+out/
+
+# Local environment variables and credentials
+.env
+.env.*
+!.env.example
+/config/bridge.toml
+*.pem
+*.key
+*.p12
+
+# Runtime state, logs, sockets, and process files
+*.log
+*.pid
+*.pid.lock
+*.sock
+/run/
+/runtime/
+/tmp/
+/temp/
+.cache/
+
+# macOS metadata and filesystem clutter
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# IDE and editor-local state
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logic Pro projects, local state, autosaves, and backups
+*.logic
+*.logicx
+*.logicx.zip
+*.logicx-backup
+*.logicx.autosave
+*.bak
+*.backup
+*.autosave
+*.recovered
+/Backups/
+/Autosave/
+/Project File Backups/
+/local_logic_state/
+/logic_state/
+
+# CoreMIDI, IAC, and virtual-routing runtime caches
+.midi-cache/
+/midi-cache/
+.midi-routing/
+/midi-routing/
+.iac-cache/
+/iac-cache/
+*.midicache
+*.midi-cache
+*.coremidi-cache
+
+# Local captures and generated diagnostics
+/diagnostics/
+/captures/
+/traces/

@@ -1,0 +1,40 @@
+{
+  "contract": "logic-12-mixer-normalized-v1",
+  "logic_version": "12.x",
+  "window": {
+    "role": "AXWindow",
+    "title": "Mixer",
+    "frame": [0, 0, 2048, 900]
+  },
+  "mixer_area": {
+    "role": "AXLayoutArea",
+    "description": "Mixer",
+    "frame": [0, 80, 2048, 820]
+  },
+  "strips": [
+    {"index": 0, "name": "Audio 1", "frame": [0, 100, 80, 700]},
+    {"index": 1, "name": "Audio 2", "frame": [80, 100, 80, 700]},
+    {"index": 2, "name": "Audio 3", "frame": [160, 100, 80, 700]},
+    {"index": 3, "name": "Audio 4", "frame": [240, 100, 80, 700]},
+    {"index": 4, "name": "Audio 5", "frame": [320, 100, 80, 700]},
+    {"index": 5, "name": "Audio 6", "frame": [400, 100, 80, 700]},
+    {"index": 6, "name": "Audio 7", "frame": [480, 100, 80, 700]},
+    {"index": 7, "name": "Audio 8", "frame": [560, 100, 80, 700]},
+    {"index": 8, "name": "Audio 9", "frame": [640, 100, 80, 700]},
+    {"index": 9, "name": "Audio 10", "frame": [720, 100, 80, 700]},
+    {"index": 10, "name": "Audio 11", "frame": [800, 100, 80, 700]},
+    {"index": 11, "name": "Audio 12", "frame": [880, 100, 80, 700]},
+    {"index": 12, "name": "Audio 13", "frame": [960, 100, 80, 700]},
+    {"index": 13, "name": "Audio 14", "frame": [1040, 100, 80, 700]},
+    {"index": 14, "name": "Audio 15", "frame": [1120, 100, 80, 700]},
+    {"index": 15, "name": "Audio 16", "frame": [1200, 100, 80, 700]},
+    {"index": 16, "name": "Audio 17", "frame": [1280, 100, 80, 700]},
+    {"index": 17, "name": "Audio 18", "frame": [1360, 100, 80, 700]},
+    {"index": 18, "name": "Audio 19", "frame": [1440, 100, 80, 700]},
+    {"index": 19, "name": "Audio 20", "frame": [1520, 100, 80, 700]},
+    {"index": 20, "name": "Audio 21", "frame": [1600, 100, 80, 700]},
+    {"index": 21, "name": "Audio 22", "frame": [1680, 100, 80, 700]},
+    {"index": 22, "name": "Audio 23", "frame": [1760, 100, 80, 700]},
+    {"index": 23, "name": "Audio 24", "frame": [1840, 100, 80, 700]}
+  ]
+}
